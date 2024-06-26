@@ -22,7 +22,7 @@ class SnakeGame {
     //логика передвижения для мобилы
     this.touchY = '';
     this.touchX = '';
-    this.touchTreshold = 30;
+    this.touchTreshold = 50;
 
   //статы
     this.score = 0;
@@ -39,6 +39,8 @@ class SnakeGame {
       this.touchX = e.changedTouches[0].pageX;
   });
   document.addEventListener('touchmove', e => {
+    e.preventDefault();
+    
       const swipeDistanceY = e.changedTouches[0].pageY - this.touchY;
       const swipeDistanceX = e.changedTouches[0].pageX - this.touchX;
       if (swipeDistanceY < -this.touchTreshold && this.snake.direction !== "down") {
@@ -66,7 +68,7 @@ class SnakeGame {
       //     this.snake.direction = "right";
       //   }
       //   break;
-  });
+  }, { passive: false });
     //подключаем старт игры к кнопке старт в меню
     document
       .getElementById("play-button")
