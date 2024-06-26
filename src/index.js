@@ -18,13 +18,20 @@ class SnakeGame {
     this.snakeHeadImage = document.getElementById("snakeHead"); // текстура головы змеи
     this.snakeBodyImage = document.getElementById("snakeBody"); // текстура тела змеи
     this.snakeTileImage = document.getElementById("snakeTile"); // текстура хвоста змеи
-    this.snakeTurnImage = document.getElementById("snakeTurn");// текстура поворота змеи
+    this.snakeTurnImage = document.getElementById("snakeTurn"); // текстура поворота змеи
     //логика передвижения для мобилы
-    this.touchY = '';
-    this.touchX = '';
+    this.touchY = "";
+    this.touchX = "";
     this.touchTreshold = 50;
 
-  //статы
+    //звуки
+    this.soundSnakeEat1 = document.getElementById("snakeEat1");
+    this.soundSnakeEat1.playbackRate = 1.5;
+    this.soundSnakeEat2 = document.getElementById("snakeEat2");
+
+    this.soundSnakeDeath1 = document.getElementById("snakeDeath1");
+    this.soundSnakeDeath1.playbackRate = 0.5;
+    //статы
     this.score = 0;
     this.gameOver = false; //статус игры
     this.speed = 180; //скорость змейки
@@ -34,41 +41,44 @@ class SnakeGame {
   init() {
     //подключаем сервис обработки нажатий
     document.addEventListener("keydown", this.handleKeyDown.bind(this));
-    document.addEventListener('touchstart', e => {
+    document.addEventListener("touchstart", (e) => {
       this.touchY = e.changedTouches[0].pageY;
       this.touchX = e.changedTouches[0].pageX;
-  });
-  document.addEventListener('touchmove', e => {
-    e.preventDefault();
-    
-      const swipeDistanceY = e.changedTouches[0].pageY - this.touchY;
-      const swipeDistanceX = e.changedTouches[0].pageX - this.touchX;
-      if (swipeDistanceY < -this.touchTreshold && this.snake.direction !== "down") {
+    });
+    document.addEventListener(
+      "touchmove",
+      (e) => {
+        e.preventDefault();
+
+        const swipeDistanceY = e.changedTouches[0].pageY - this.touchY;
+        const swipeDistanceX = e.changedTouches[0].pageX - this.touchX;
+        if (
+          swipeDistanceY < -this.touchTreshold &&
+          this.snake.direction !== "down"
+        ) {
           this.snake.direction = "up";
-      }
-      if (swipeDistanceY > this.touchTreshold && this.snake.direction !== "up") {
-          this.snake.direction = "down"
-      }
-      if (swipeDistanceX > this.touchTreshold && this.snake.direction !== "left") {
-        this.snake.direction = "right";
-       }
-      if (swipeDistanceX < -this.touchTreshold && this.snake.direction !== "right") {
-        this.snake.direction = "left"
-      }
-
-
-   
-      // case "ArrowLeft": // нажатие влево
-      //   if (this.snake.direction !== "right") {
-      //     this.snake.direction = "left";
-      //   }
-      //   break;
-      // case "ArrowRight": // нажатие вправо
-      //   if (this.snake.direction !== "left") {
-      //     this.snake.direction = "right";
-      //   }
-      //   break;
-  }, { passive: false });
+        }
+        if (
+          swipeDistanceY > this.touchTreshold &&
+          this.snake.direction !== "up"
+        ) {
+          this.snake.direction = "down";
+        }
+        if (
+          swipeDistanceX > this.touchTreshold &&
+          this.snake.direction !== "left"
+        ) {
+          this.snake.direction = "right";
+        }
+        if (
+          swipeDistanceX < -this.touchTreshold &&
+          this.snake.direction !== "right"
+        ) {
+          this.snake.direction = "left";
+        }
+      },
+      { passive: false }
+    );
     //подключаем старт игры к кнопке старт в меню
     document
       .getElementById("play-button")
@@ -97,6 +107,7 @@ class SnakeGame {
 
     if (this.gameOver) {
       // при проигрыше
+      this.soundSnakeDeath1.play();
       context.clearRect(0, 0, this.canvas.width, this.canvas.height); // очищаем canvas
       document.getElementById("nameMenu").textContent = "Вы проиграли!"; //сообщение о проигрыше
       document.getElementById("score").textContent = "Ваш счёт:" + this.score;
@@ -148,6 +159,10 @@ class SnakeGame {
         this.speed -= 10; // ускоряем игру после каждых съеденных 4-х яблок
       }
       this.generateNewApple(); // генерируем новое яблоко
+      const random = Math.random();
+      console.log(random)
+      if (random > 0.5) this.soundSnakeEat1.play();
+      else if (random < 0.5) this.soundSnakeEat2.play();
     } else {
       this.snake.cells.pop();
     }
@@ -194,6 +209,7 @@ class SnakeGame {
         newApple.x === this.snake.cells[i].x &&
         newApple.y === this.snake.cells[i].y
       ) {
+ 
         return this.generateNewApple(); //если сьела то создаем новое
       }
     }
@@ -238,11 +254,9 @@ class SnakeGame {
         const nextCell = this.snake.cells[i - 1];
         if (prevCell.x < currCell.x) {
           rotation = (3 * Math.PI) / 2;
-        } 
-        else if (prevCell.x < currCell.x) {
+        } else if (prevCell.x < currCell.x) {
           rotation = 0;
-        }
-        else if (prevCell.x > currCell.x) {
+        } else if (prevCell.x > currCell.x) {
           rotation = Math.PI / 2;
         } else if (prevCell.y < currCell.y) {
           rotation = 0;
@@ -269,9 +283,8 @@ class SnakeGame {
         const nextCell = this.snake.cells[i + 1];
         const prevCell = this.snake.cells[i - 1];
         const currCell = this.snake.cells[i];
-        if (prevCell.x < currCell.x || prevCell.x > currCell.x ) {
+        if (prevCell.x < currCell.x || prevCell.x > currCell.x) {
           if (nextCell.x === currCell.x) _snakeBodyNew = this.snakeTurnImage;
-          
           else {
             // Этот блок тела не поворачивается, используем стандартную текстуру
             _snakeBodyNew = this.snakeBodyImage;
@@ -317,7 +330,7 @@ class SnakeGame {
   drawScore(context) {
     // отрисовка счета
     context.fillStyle = "black";
-    context.font = "20px Arial";
+    context.font = "20px Source Code Pro, monospace";
     context.fillText(`Текущий счет: ${this.score}`, 10, 25);
   }
 

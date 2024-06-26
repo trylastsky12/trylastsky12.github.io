@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./src/index.css">
     <link rel="shortcut icon" href="./src/assets/snakeHead.png" type="image/x-icon">
     <title>Zmeika</title>
@@ -13,6 +16,19 @@
     <img src="./src/assets/snakeBody.png" id="snakeBody" alt="snakeBody" style="display: none;">
     <img src="./src/assets/snakeTile.png" id="snakeTile" alt="snakeTile" style="display: none;">
     <img src="./src/assets/snakeTurn.png" id="snakeTurn" alt="snakeTurn" style="display: none;">
+
+    <audio id="snakeDeath1">
+        <source src="./src/assets/sound/snakeDeath1.wav" type="audio/mpeg">
+      </audio>
+
+    <audio id="snakeEat1">
+        <source src="./src/assets/sound/snakeEat1.wav" type="audio/mpeg">
+      </audio>
+
+      <audio id="snakeEat2">
+        <source src="./src/assets/sound/snakeEat2.wav" type="audio/mpeg">
+      </audio>
+
     <div id="menu">
         <h1 id="nameMenu">Zmeika</h1>
         <p id="score"></p>
@@ -20,6 +36,7 @@
       </div>
     <canvas id="game" width="400" height="400">
     </canvas>
-    <script src="./src/index.js"></script>
+        
+        <script src="./src/index.js"></script>
 </body>
 </html>
