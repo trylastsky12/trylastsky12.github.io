@@ -21,6 +21,7 @@ canvas {
   max-width: 400px;
   max-height: 400px;
   background-image: url("./assets/background.png");
+  background-size: 100%;
   border: 2px solid white;
 }
 
@@ -52,6 +53,8 @@ canvas {
   position: absolute;
   width: 35%;
   min-width: 200px;
+  max-width: 350px;
+  max-height: 250px;
   height: 35%;
   top: 50%;
   left: 50%;
