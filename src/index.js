@@ -31,14 +31,18 @@ class SnakeGame {
 
     this.soundSnakeDeath1 = document.getElementById("snakeDeath1");
     this.soundSnakeDeath1.playbackRate = 0.5;
+
+    this.soundMelody1 = document.getElementById("melody1");
+    this.soundMelody1.volume = 0.5;
+    this.soundMelody1.loop = true;
     //статы
     this.score = 0;
     this.gameOver = false; //статус игры
     this.speed = 180; //скорость змейки
-    this.init(); //инициализация ивентов
   }
 
   init() {
+    this.soundMelody1.play();
     //подключаем сервис обработки нажатий
     document.addEventListener("keydown", this.handleKeyDown.bind(this));
     document.addEventListener("touchstart", (e) => {
@@ -108,6 +112,9 @@ class SnakeGame {
     if (this.gameOver) {
       // при проигрыше
       this.soundSnakeDeath1.play();
+      this.soundMelody1.currentTime = 0;
+      this.soundMelody1.pause();
+
       context.clearRect(0, 0, this.canvas.width, this.canvas.height); // очищаем canvas
       document.getElementById("nameMenu").textContent = "Вы проиграли!"; //сообщение о проигрыше
       document.getElementById("score").textContent = "Ваш счёт:" + this.score;
@@ -367,6 +374,6 @@ const playButton = document.getElementById("play-button"); // получаем �
 playButton.addEventListener("click", () => {
   //при нажатии кнопки старта меню будет скрыто
   gameMenu.style.display = "none"; //скрываем меню
-
-  new SnakeGame(canvas, 16); // создаем новый обьект игры
+  const game = new SnakeGame(canvas, 16); // создаем новый обьект игры
+  game.init();
 });
