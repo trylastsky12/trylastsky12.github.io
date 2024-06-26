@@ -19,6 +19,11 @@ class SnakeGame {
     this.snakeBodyImage = document.getElementById("snakeBody"); // текстура тела змеи
     this.snakeTileImage = document.getElementById("snakeTile"); // текстура хвоста змеи
     this.snakeTurnImage = document.getElementById("snakeTurn");// текстура поворота змеи
+
+    // Добавляем обработчики событий касаний
+  this.container.addEventListener("touchstart", this.handleTouchStart.bind(this));
+  this.container.addEventListener("touchmove", this.handleTouchMove.bind(this));
+
     this.score = 0;
     this.gameOver = false; //статус игры
     this.speed = 180; //скорость змейки
@@ -281,28 +286,68 @@ class SnakeGame {
   }
 
   handleKeyDown(event) {
-    // обработка нажатий
+    // обработка нажатий клавиатуры
     switch (event.key) {
-      case "ArrowUp": // нажатие вверх
+      case "ArrowUp":
         if (this.snake.direction !== "down") {
           this.snake.direction = "up";
         }
         break;
-      case "ArrowDown": // нажатие вниз
+      case "ArrowDown":
         if (this.snake.direction !== "up") {
           this.snake.direction = "down";
         }
         break;
-      case "ArrowLeft": // нажатие влево
+      case "ArrowLeft":
         if (this.snake.direction !== "right") {
           this.snake.direction = "left";
         }
         break;
-      case "ArrowRight": // нажатие вправо
+      case "ArrowRight":
         if (this.snake.direction !== "left") {
           this.snake.direction = "right";
         }
         break;
+    }
+  }
+  
+  handleTouchStart(event) {
+    // Запоминаем начальную точку касания
+    this.touchStartX = event.touches[0].clientX;
+    this.touchStartY = event.touches[0].clientY;
+  }
+  
+  handleTouchMove(event) {
+    // Определяем направление движения
+    const deltaX = event.touches[0].clientX - this.touchStartX;
+    const deltaY = event.touches[0].clientY - this.touchStartY;
+  
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      // Движение по горизонтали
+      if (deltaX > 0) {
+        // Движение вправо
+        if (this.snake.direction !== "left") {
+          this.snake.direction = "right";
+        }
+      } else {
+        // Движение влево
+        if (this.snake.direction !== "right") {
+          this.snake.direction = "left";
+        }
+      }
+    } else {
+      // Движение по вертикали
+      if (deltaY > 0) {
+        // Движение вниз
+        if (this.snake.direction !== "up") {
+          this.snake.direction = "down";
+        }
+      } else {
+        // Движение вверх
+        if (this.snake.direction !== "down") {
+          this.snake.direction = "up";
+        }
+      }
     }
   }
 }
