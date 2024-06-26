@@ -111,9 +111,11 @@ class SnakeGame {
 
     if (this.gameOver) {
       // при проигрыше
+
       this.soundSnakeDeath1.play();
       this.soundMelody1.currentTime = 0;
       this.soundMelody1.pause();
+      document.getElementById("bodyGame").style.cursor = "auto"; //скрываем курсор при игре
 
       context.clearRect(0, 0, this.canvas.width, this.canvas.height); // очищаем canvas
       document.getElementById("nameMenu").textContent = "Вы проиграли!"; //сообщение о проигрыше
@@ -167,7 +169,6 @@ class SnakeGame {
       }
       this.generateNewApple(); // генерируем новое яблоко
       const random = Math.random();
-      console.log(random)
       if (random > 0.5) this.soundSnakeEat1.play();
       else if (random < 0.5) this.soundSnakeEat2.play();
     } else {
@@ -216,7 +217,6 @@ class SnakeGame {
         newApple.x === this.snake.cells[i].x &&
         newApple.y === this.snake.cells[i].y
       ) {
- 
         return this.generateNewApple(); //если сьела то создаем новое
       }
     }
@@ -375,5 +375,6 @@ playButton.addEventListener("click", () => {
   //при нажатии кнопки старта меню будет скрыто
   gameMenu.style.display = "none"; //скрываем меню
   const game = new SnakeGame(canvas, 16); // создаем новый обьект игры
+  document.getElementById("bodyGame").style.cursor = "none"; //скрываем курсор при игре
   game.init();
 });

@@ -17,13 +17,14 @@ body {
 }
 
 canvas { 
-  width: 100%;
+  width: auto;
   height: auto;
   max-width: 400px;
   max-height: 400px;
   background-image: url("./assets/background.png");
   background-size: 100%;
   border: 2px solid white;
+  zoom: 1.5;
 }
 
 @keyframes borderAnimation {
@@ -48,6 +49,7 @@ canvas {
     background-color: #0b7a14;
   }
 }
+
 
 #menu {
   /* display: none; */
@@ -81,6 +83,8 @@ canvas {
     #14a227,
     #0b7a14
   ); /* Градиент от верхнего края кнопки к нижнему */
+
+  cursor: pointer;
 }
 
 #play-button:hover {
