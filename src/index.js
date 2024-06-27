@@ -22,7 +22,7 @@ class SnakeGame {
     //логика передвижения для мобилы
     this.touchY = "";
     this.touchX = "";
-    this.touchTreshold = 50;
+    this.touchTreshold = 150;
 
     //звуки
     this.soundSnakeEat1 = document.getElementById("snakeEat1");
