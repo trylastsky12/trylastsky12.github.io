@@ -23,7 +23,7 @@ class SnakeGame {
     //логика передвижения для мобилы
     this.touchY = "";
     this.touchX = "";
-    this.touchTreshold = 150;
+    this.touchTreshold = 30;
 
     //звуки
     this.soundSnakeEat1 = document.getElementById("snakeEat1");
@@ -46,11 +46,7 @@ class SnakeGame {
     this.soundMelody1.play();
     //подключаем сервис обработки нажатий
     document.addEventListener("keydown", this.handleKeyDown.bind(this));
-    document.addEventListener("touchstart", (e) => {
-      this.touchY = e.changedTouches[0].pageY;
-      this.touchX = e.changedTouches[0].pageX;
-    });
-    document.addEventListener(
+   document.addEventListener(
       "touchmove",
       (e) => {
         e.preventDefault();
