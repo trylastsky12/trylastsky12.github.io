@@ -57,15 +57,15 @@ class SnakeGame {
     const absSwipeDistanceY = Math.abs(swipeDistanceY);
 
     if (absSwipeDistanceX > absSwipeDistanceY) {
-      if (swipeDistanceX > this.touchTreshold && this.snake.direction !== "left" && this.snake.direction !== "right") { 
+      if (swipeDistanceX > this.touchTreshold && this.snake.direction !== "left") {
         this.snake.direction = "right";
-      } else if (swipeDistanceX < -this.touchTreshold && this.snake.direction !== "right" && this.snake.direction !== "left") {
+      } else if (swipeDistanceX < -this.touchTreshold && this.snake.direction !== "right") {
         this.snake.direction = "left";
       }
     } else {
-      if (swipeDistanceY < -this.touchTreshold && this.snake.direction !== "down" && this.snake.direction !== "up") {
+      if (swipeDistanceY < -this.touchTreshold && this.snake.direction !== "down") {
         this.snake.direction = "up";
-      } else if (swipeDistanceY > this.touchTreshold && this.snake.direction !== "up" && this.snake.direction !== "down") {
+      } else if (swipeDistanceY > this.touchTreshold && this.snake.direction !== "up") {
         this.snake.direction = "down";
       }
     }
