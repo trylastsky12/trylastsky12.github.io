@@ -58,7 +58,7 @@ class SnakeGame {
         const swipeDistanceX = e.changedTouches[0].pageX - this.touchX;
         if (
           swipeDistanceY < -this.touchTreshold &&
-          this.snake.direction !== "down" && e.changedTouches[0].pageX === 0
+          this.snake.direction !== "down"
         ) {
           this.snake.direction = "up";
         }
