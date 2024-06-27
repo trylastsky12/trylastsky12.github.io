@@ -45,11 +45,7 @@ class SnakeGame {
     this.soundMelody1.play();
     //подключаем сервис обработки нажатий
     document.addEventListener("keydown", this.handleKeyDown.bind(this));
-    document.addEventListener("touchstart", (e) => {
-      this.touchY = e.changedTouches[0].pageY;
-      this.touchX = e.changedTouches[0].pageX;
-    });
-    document.addEventListener(
+   document.addEventListener(
   "touchmove",
   (e) => {
     e.preventDefault();
@@ -61,15 +57,15 @@ class SnakeGame {
     const absSwipeDistanceY = Math.abs(swipeDistanceY);
 
     if (absSwipeDistanceX > absSwipeDistanceY) {
-      if (swipeDistanceX > this.touchTreshold && this.snake.direction !== "left") {
+      if (swipeDistanceX > this.touchTreshold && this.snake.direction !== "left" && this.snake.direction !== "right") { 
         this.snake.direction = "right";
-      } else if (swipeDistanceX < -this.touchTreshold && this.snake.direction !== "right") {
+      } else if (swipeDistanceX < -this.touchTreshold && this.snake.direction !== "right" && this.snake.direction !== "left") {
         this.snake.direction = "left";
       }
     } else {
-      if (swipeDistanceY < -this.touchTreshold && this.snake.direction !== "down") {
+      if (swipeDistanceY < -this.touchTreshold && this.snake.direction !== "down" && this.snake.direction !== "up") {
         this.snake.direction = "up";
-      } else if (swipeDistanceY > this.touchTreshold && this.snake.direction !== "up") {
+      } else if (swipeDistanceY > this.touchTreshold && this.snake.direction !== "up" && this.snake.direction !== "down") {
         this.snake.direction = "down";
       }
     }
