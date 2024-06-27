@@ -17,8 +17,9 @@ class SnakeGame {
     this.appleImage = document.getElementById("appleTexture"); // добавляем текстуру яблоку
     this.snakeHeadImage = document.getElementById("snakeHead"); // текстура головы змеи
     this.snakeBodyImage = document.getElementById("snakeBody"); // текстура тела змеи
-    this.snakeTileImage = document.getElementById("snakeTile"); // текстура хвоста змеи
-    this.snakeTurnImage = document.getElementById("snakeTurn"); // текстура поворота змеи
+    this.snakeTurnLeftImage = document.getElementById("snakeTurnLeft"); // текстура хвоста змеи left
+    this.snakeTurnRightImage = document.getElementById("snakeTurnRight"); // текстура хвоста змеи
+    this.snakeTileImage = document.getElementById("snakeTile"); // текстура поворота змеи
     //логика передвижения для мобилы
     this.touchY = "";
     this.touchX = "";
@@ -286,24 +287,81 @@ class SnakeGame {
           grid
         );
       } else if (i > 0 && i !== this.snake.cells.length - 1) {
-        let _snakeBodyNew;
-        const nextCell = this.snake.cells[i + 1];
-        const prevCell = this.snake.cells[i - 1];
-        const currCell = this.snake.cells[i];
+        let _snakeBodyNew; // место хранения текстуры для отрисовки
+        const nextCell = this.snake.cells[i + 1]; // следующий блок который будет отрисован
+        const prevCell = this.snake.cells[i - 1]; // предыдущий отрисованный блок
+        const currCell = this.snake.cells[i]; // текущий отрисовывающийся блок
+
         if (prevCell.x < currCell.x || prevCell.x > currCell.x) {
-          if (nextCell.x === currCell.x) _snakeBodyNew = this.snakeTurnImage;
-          else {
-            // Этот блок тела не поворачивается, используем стандартную текстуру
-            _snakeBodyNew = this.snakeBodyImage;
-          }
+          // поворот по диагонали x
+          // движение вниз
+          if (
+            nextCell.x === currCell.x &&
+            prevCell.y > nextCell.y &&
+            prevCell.x < nextCell.x
+          )
+            _snakeBodyNew = this.snakeTurnRightImage; //поворот влево
+          else if (
+            nextCell.x === currCell.x &&
+            prevCell.y > nextCell.y &&
+            prevCell.x > nextCell.x
+          )
+            _snakeBodyNew = this.snakeTurnLeftImage; //поворот вправо
+          // движение вверх
+          else if (
+            nextCell.x === currCell.x &&
+            prevCell.y < nextCell.y &&
+            prevCell.x < nextCell.x
+          )
+            _snakeBodyNew = this.snakeTurnLeftImage; // поворот  влево
+          else if (
+            nextCell.x === currCell.x &&
+            prevCell.y < nextCell.y &&
+            prevCell.x > nextCell.x
+          )
+            _snakeBodyNew = this.snakeTurnRightImage; // поворот вправо
+          else _snakeBodyNew = this.snakeBodyImage;
+        } else {
+          // Этот блок тела не поворачивается, используем стандартную текстуру
+          _snakeBodyNew = this.snakeBodyImage;
         }
 
-        if (prevCell.y < currCell.y || prevCell.y > currCell.y) {
-          if (nextCell.y === currCell.y) _snakeBodyNew = this.snakeTurnImage;
-          else {
-            // Этот блок тела не поворачивается, используем стандартную текстуру
-            _snakeBodyNew = this.snakeBodyImage;
-          }
+        if (
+          prevCell.y < currCell.y ||
+          prevCell.y > currCell.y ||
+          prevCell.x < currCell.x ||
+          prevCell.x > currCell.x
+        ) {
+          // поворот по диагонали y
+          // движение вправо
+          if (
+            nextCell.y === currCell.y &&
+            prevCell.x > nextCell.x &&
+            prevCell.y < nextCell.y
+          )
+            _snakeBodyNew = this.snakeTurnLeftImage; //поворот вверх
+          else if (
+            nextCell.y === currCell.y &&
+            prevCell.x > nextCell.x &&
+            prevCell.y > nextCell.y
+          )
+            _snakeBodyNew = this.snakeTurnRightImage; //поворот вниз
+          // движение влево
+          else if (
+            nextCell.y === currCell.y &&
+            prevCell.x < nextCell.x &&
+            prevCell.y < nextCell.y
+          )
+            _snakeBodyNew = this.snakeTurnRightImage; // поворот  вверх
+          else if (
+            nextCell.y === currCell.y &&
+            prevCell.x < nextCell.x &&
+            prevCell.y > nextCell.y
+          )
+            _snakeBodyNew = this.snakeTurnLeftImage; // поворот вниз
+        } else {
+          // Этот блок тела не поворачивается, используем стандартную текстуру
+          _snakeBodyNew = this.snakeBodyImage;
         }
 
         context.drawImage(_snakeBodyNew, -grid / 2, -grid / 2, grid, grid);
