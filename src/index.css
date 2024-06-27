@@ -25,7 +25,9 @@ canvas {
   background-size: 100%;
   border: 2px solid white;
   zoom: 1.5;
+  display: none;
 }
+
 
 @keyframes borderAnimation {
   0% {
@@ -109,4 +111,8 @@ canvas {
 
 #score > p {
   color: #f5f5f5;
+}
+
+#loading-h1 {
+  color: white;
 }

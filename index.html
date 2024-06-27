@@ -11,6 +11,12 @@
     <title>Zmeika</title>
 </head>
 <body id="bodyGame">
+  <div id="loading-screen">
+    <h1 id="loading-h1">Загрузка...</h1>
+</div>
+
+
+
     <img src="./src/assets/apple.png" id="appleTexture" style="width: 32px; height: 32px; display: none;" alt="apple">
     <img src="./src/assets/snakeHead.png" id="snakeHead" alt="snakeHead" style="display: none;">    
     <img src="./src/assets/snakeBody.png" id="snakeBody" alt="snakeBody" style="display: none;">
@@ -35,14 +41,13 @@
         <source src="./src/assets/sound/snakeEat2.wav" type="audio/mpeg">
       </audio>
 
-    <div id="menu">
+    <div id="menu" style="display: none;">
         <h1 id="nameMenu">Zmeika</h1>
         <p id="score"></p>
         <button id="play-button">Играть</button>
       </div>
-    <canvas id="game" width="400" height="400">
+    <canvas id="game" width="400" height="400" style="display: none;">
     </canvas>
-        
         <script src="./src/index.js"></script>
 </body>
 </html>

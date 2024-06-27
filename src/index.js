@@ -1,3 +1,9 @@
+const canvas = document.getElementById("game"); // получаем canvas по id
+const gameMenu = document.getElementById("menu"); // получаем меню по id
+const playButton = document.getElementById("play-button"); // получаем кнопку старта по id
+const loadingScreen = document.getElementById("loading-h1"); // загрузочный экран
+let statusOfLoad = false; //статус загрузки содержимого игры
+
 class SnakeGame {
   //Класс нашей игры
   constructor(canvas, gridSize) {
@@ -456,9 +462,20 @@ class SnakeGame {
   }
 }
 
-const canvas = document.getElementById("game"); // получаем canvas по id
-const gameMenu = document.getElementById("menu"); // получаем меню по id
-const playButton = document.getElementById("play-button"); // получаем кнопку старта по id
+
+setInterval(() => { //во время загрузки
+  if (statusOfLoad === true) return;
+  if(loadingScreen.textContent.length === 11) loadingScreen.textContent = "Загрузка..";
+  else if (loadingScreen.textContent.length === 10) loadingScreen.textContent = "Загрузка.";
+  else if(loadingScreen.textContent.length === 9) loadingScreen.textContent = "Загрузка...";
+}, 350)
+
+window.onload = () => { // после загрузки
+statusOfLoad = true;
+loadingScreen.style.display = "none";
+canvas.style.display = "flex";
+gameMenu.style.display = "block";
+
 playButton.addEventListener("click", () => {
   //при нажатии кнопки старта меню будет скрыто
   gameMenu.style.display = "none"; //скрываем меню
@@ -466,3 +483,4 @@ playButton.addEventListener("click", () => {
   document.getElementById("bodyGame").style.cursor = "none"; //скрываем курсор при игре
   game.init();
 });
+}
