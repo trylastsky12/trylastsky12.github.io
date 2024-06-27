@@ -50,39 +50,32 @@ class SnakeGame {
       this.touchX = e.changedTouches[0].pageX;
     });
     document.addEventListener(
-      "touchmove",
-      (e) => {
-        e.preventDefault();
+  "touchmove",
+  (e) => {
+    e.preventDefault();
 
-        const swipeDistanceY = e.changedTouches[0].pageY - this.touchY;
-        const swipeDistanceX = e.changedTouches[0].pageX - this.touchX;
-        if (
-          swipeDistanceY < -this.touchTreshold &&
-          this.snake.direction !== "down"
-        ) {
-          this.snake.direction = "up";
-        }
-        if (
-          swipeDistanceY > this.touchTreshold &&
-          this.snake.direction !== "up"
-        ) {
-          this.snake.direction = "down";
-        }
-        if (
-          swipeDistanceX > this.touchTreshold &&
-          this.snake.direction !== "left"
-        ) {
-          this.snake.direction = "right";
-        }
-        if (
-          swipeDistanceX < -this.touchTreshold &&
-          this.snake.direction !== "right"
-        ) {
-          this.snake.direction = "left";
-        }
-      },
-      { passive: false }
-    );
+    const swipeDistanceY = e.changedTouches[0].pageY - this.touchY;
+    const swipeDistanceX = e.changedTouches[0].pageX - this.touchX;
+
+    const absSwipeDistanceX = Math.abs(swipeDistanceX);
+    const absSwipeDistanceY = Math.abs(swipeDistanceY);
+
+    if (absSwipeDistanceX > absSwipeDistanceY) {
+      if (swipeDistanceX > this.touchTreshold && this.snake.direction !== "left") {
+        this.snake.direction = "right";
+      } else if (swipeDistanceX < -this.touchTreshold && this.snake.direction !== "right") {
+        this.snake.direction = "left";
+      }
+    } else {
+      if (swipeDistanceY < -this.touchTreshold && this.snake.direction !== "down") {
+        this.snake.direction = "up";
+      } else if (swipeDistanceY > this.touchTreshold && this.snake.direction !== "up") {
+        this.snake.direction = "down";
+      }
+    }
+  },
+  { passive: false }
+);
     //подключаем старт игры к кнопке старт в меню
     document
       .getElementById("play-button")
