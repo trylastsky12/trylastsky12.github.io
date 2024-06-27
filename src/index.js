@@ -23,7 +23,7 @@ class SnakeGame {
     //логика передвижения для мобилы
     this.touchY = "";
     this.touchX = "";
-    this.touchTreshold = 30;
+    this.touchTreshold = 50;
 
     //звуки
     this.soundSnakeEat1 = document.getElementById("snakeEat1");
@@ -46,40 +46,10 @@ class SnakeGame {
     this.soundMelody1.play();
     //подключаем сервис обработки нажатий
     document.addEventListener("keydown", this.handleKeyDown.bind(this));
-   document.addEventListener(
-      "touchmove",
-      (e) => {
-        e.preventDefault();
+    // подключаем мобильное управление
+    document.addEventListener("touchstart", this.handleTouchStart.bind(this));
+    document.addEventListener("touchmove", this.handleTouchMove.bind(this));
 
-        const swipeDistanceY = e.changedTouches[0].pageY - this.touchY;
-        const swipeDistanceX = e.changedTouches[0].pageX - this.touchX;
-        if (
-          swipeDistanceY < -this.touchTreshold &&
-          this.snake.direction !== "down"
-        ) {
-          this.snake.direction = "up";
-        }
-        if (
-          swipeDistanceY > this.touchTreshold &&
-          this.snake.direction !== "up"
-        ) {
-          this.snake.direction = "down";
-        }
-        if (
-          swipeDistanceX > this.touchTreshold &&
-          this.snake.direction !== "left"
-        ) {
-          this.snake.direction = "right";
-        }
-        if (
-          swipeDistanceX < -this.touchTreshold &&
-          this.snake.direction !== "right"
-        ) {
-          this.snake.direction = "left";
-        }
-      },
-      { passive: false }
-    );
     //подключаем старт игры к кнопке старт в меню
     document
       .getElementById("play-button")
@@ -399,25 +369,89 @@ class SnakeGame {
     // обработка нажатий
     switch (event.key) {
       case "ArrowUp": // нажатие вверх
-        if (this.snake.direction !== "down") {
+        if (
+          this.snake.direction !== "down" &&
+          this.snake.cells[0].y === this.snake.cells[1].y
+        ) {
           this.snake.direction = "up";
         }
         break;
       case "ArrowDown": // нажатие вниз
-        if (this.snake.direction !== "up") {
+        if (
+          this.snake.direction !== "up" &&
+          this.snake.cells[0].y === this.snake.cells[1].y
+        ) {
           this.snake.direction = "down";
         }
         break;
       case "ArrowLeft": // нажатие влево
-        if (this.snake.direction !== "right") {
+        if (
+          this.snake.direction !== "right" &&
+          this.snake.cells[0].x === this.snake.cells[1].x
+        ) {
           this.snake.direction = "left";
         }
         break;
       case "ArrowRight": // нажатие вправо
-        if (this.snake.direction !== "left") {
+        if (
+          this.snake.direction !== "left" &&
+          this.snake.cells[0].x === this.snake.cells[1].x
+        ) {
           this.snake.direction = "right";
         }
         break;
+    }
+  }
+
+  handleTouchStart(event) {
+    // Запоминаем начальную точку касания
+    this.touchStartX = event.touches[0].clientX;
+    this.touchStartY = event.touches[0].clientY;
+  }
+
+  handleTouchMove(event) {
+    // Определяем направление движения
+    const deltaX = event.touches[0].clientX - this.touchStartX;
+    const deltaY = event.touches[0].clientY - this.touchStartY;
+
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      // Движение по горизонтали
+      if (deltaX > 0) {
+        // Движение вправо
+        if (
+          this.snake.direction !== "left" &&
+          this.snake.cells[0].x === this.snake.cells[1].x
+        ) {
+          this.snake.direction = "right";
+        }
+      } else {
+        // Движение влево
+        if (
+          this.snake.direction !== "right" &&
+          this.snake.cells[0].x === this.snake.cells[1].x
+        ) {
+          this.snake.direction = "left";
+        }
+      }
+    } else {
+      // Движение по вертикали
+      if (deltaY > 0) {
+        // Движение вниз
+        if (
+          this.snake.direction !== "up" &&
+          this.snake.cells[0].y === this.snake.cells[1].y
+        ) {
+          this.snake.direction = "down";
+        }
+      } else {
+        // Движение вверх
+        if (
+          this.snake.direction !== "down" &&
+          this.snake.cells[0].y === this.snake.cells[1].y
+        ) {
+          this.snake.direction = "up";
+        }
+      }
     }
   }
 }
